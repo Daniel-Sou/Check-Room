@@ -1,6 +1,12 @@
 // chat/src/App.js
 
     import React, { Component } from 'react';
+        // [..]
+    import {
+      handleInput,
+      connectToChatkit,
+    } from './methods';
+    import Dialog from './components/Dialog';
 
     import 'skeleton-css/css/normalize.css';
     import 'skeleton-css/css/skeleton.css';
@@ -22,6 +28,8 @@
           newMessage: '',
         };
 
+        this.handleInput = handleInput.bind(this);
+        this.connectToChatkit = connectToChatkit.bind(this);
       }
 
       render() {
@@ -39,7 +47,14 @@
 
         return (
           <div className="App">
-            <aside className="sidebar left-sidebar"></aside>
+            <aside className="sidebar left-sidebar">
+              {currentUser ? (
+              <div className="user-profile">
+                <span className="username">{currentUser.name}</span>
+                <span className="user-id">{`@${currentUser.id}`}</span>
+              </div>
+              ) : null}
+            </aside>
             <section className="chat-screen">
               <header className="chat-header"></header>
               <ul className="chat-messages"></ul>
@@ -54,7 +69,15 @@
                 </form>
               </footer>
             </section>
-            <aside className="sidebar right-sidebar"></aside>
+            <aside className="sidebar right-sidebar">
+              {showLogin ? (
+              <Dialog
+                userId={userId}
+                handleInput={this.handleInput}
+                connectToChatkit={this.connectToChatkit}
+              />
+              ) : null}
+            </aside>
           </div>
         );
       }
